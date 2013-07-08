@@ -14,17 +14,23 @@ ending in ``.d``. For example::
     2013-07-06 20:59:24 macbook INFO Checking for local changes to /etc/hosts
     2013-07-06 19:32:03 macbook INFO Writing file: /etc/hosts
 
-If the given file exists but the corresponding directory does not exist yet,
-the directory is created and the file is moved into the directory so that its
-existing contents are preserved. If the generated file has been modified since
-the last run, ``update-dotdee`` will refuse to overwrite its contents (unless
-you use the ``--force`` option).
+Some notes about how it works:
 
-Usage
------
+- If the given file exists but the corresponding directory does not exist yet,
+  the directory is created and the file is moved into the directory (and
+  renamed to ``local``) so that its existing contents are preserved.
 
-An example of the basic usage is given above. You can install the
-``update-dotdee`` program by executing the following command::
+- If the generated file has been modified since the last run, ``update-dotdee``
+  will refuse to overwrite its contents (unless you use the ``--force``
+  option).
+
+- The files in the ``.d`` directory are concatenated in the natural sorting
+  order of the filenames (as implemented by the naturalsort_ package).
+
+Installation
+------------
+
+You can install the ``update-dotdee`` program using the following command::
 
     pip install update-dotdee
 
@@ -47,5 +53,6 @@ This software is licensed under the `MIT license`_.
 .. _dotdee: http://blog.dustinkirkland.com/2011/04/dotdee-modern-proposal-for-improving.html
 .. _GitHub: https://github.com/xolox/python-update-dotdee
 .. _MIT license: http://en.wikipedia.org/wiki/MIT_License
+.. _naturalsort: https://pypi.python.org/pypi/naturalsort
 .. _peter@peterodding.com: peter@peterodding.com
 .. _PyPi: https://pypi.python.org/pypi/update-dotdee
