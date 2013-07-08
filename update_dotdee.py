@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 7, 2013
+# Last Change: July 8, 2013
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -120,21 +120,24 @@ class UpdateDotDee:
             if not filename.startswith('.'):
                 blocks.append(self.read_file(os.path.join(self.directory, filename)))
         contents = "\n\n".join(blocks)
-        # Make sure the generated file was not modified?
-        self.logger.info("Checking for local changes to %s", format_path(self.filename))
-        current_checksum = self.hash_contents()
-        if os.path.isfile(self.checksum_file):
-            # Recall the previous checksum.
-            handle = open(self.checksum_file)
-            previous_checksum = handle.read()
-            handle.close()
-            # Compare the checksums.
-            if current_checksum != previous_checksum:
-                if force:
-                    self.logger.warn("Contents of generated file were modified but --force was used.")
-                else:
-                    raise RefuseToOverwrite, "Contents of generated file were modified! Refusing to overwrite."
-        # Update the generated file and the checksum.
+        # Make sure the generated file was not modified? We skip this on the
+        # first run, when the original file was just moved into the newly
+        # created directory (see above).
+        if os.path.isfile(self.filename):
+            self.logger.info("Checking for local changes to %s", format_path(self.filename))
+            current_checksum = self.hash_contents()
+            if os.path.isfile(self.checksum_file):
+                # Recall the previous checksum.
+                handle = open(self.checksum_file)
+                previous_checksum = handle.read()
+                handle.close()
+                # Compare the checksums.
+                if current_checksum != previous_checksum:
+                    if force:
+                        self.logger.warn("Contents of generated file were modified but --force was used.")
+                    else:
+                        raise RefuseToOverwrite, "Contents of generated file were modified! Refusing to overwrite."
+        # Update the generated file.
         self.write_file(self.filename, contents)
         # Update the checksum.
         handle = open(self.checksum_file, 'w')
