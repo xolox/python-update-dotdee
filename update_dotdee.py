@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 8, 2013
+# Last Change: July 14, 2013
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -33,12 +33,12 @@ from natsort import natsort
 # Initialize the logger.
 logger = logging.getLogger('update-dotdee')
 logger.setLevel(logging.INFO)
-logger.addHandler(ColoredStreamHandler())
 
 def main():
     """
     Command line interface for the ``update-dotdee`` program.
     """
+    logger.addHandler(ColoredStreamHandler())
     program = UpdateDotDee()
     try:
         if program.parse_arguments(sys.argv[1:]):
