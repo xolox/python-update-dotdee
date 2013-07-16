@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 14, 2013
+# Last Change: July 16, 2013
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -108,8 +108,7 @@ class UpdateDotDee:
             force = self.force
         if not os.path.isdir(self.directory):
             # Create the .d directory.
-            self.logger.info("Creating directory %s", format_path(self.directory))
-            os.makedirs(self.directory)
+            self.create_directory()
             # Move the original file into the .d directory.
             local_file = os.path.join(self.directory, 'local')
             self.logger.info("Moving %s to %s", format_path(self.filename), format_path(local_file))
@@ -182,6 +181,14 @@ class UpdateDotDee:
         hexdigest = context.hexdigest()
         self.logger.debug("SHA1 of %s is %s", format_path(self.filename), hexdigest)
         return hexdigest
+
+    def create_directory(self):
+        """
+        Make sure the configuration directory exists.
+        """
+        if not os.path.isdir(self.directory):
+            self.logger.info("Creating directory %s", format_path(self.directory))
+            os.makedirs(self.directory)
 
     @property
     def checksum_file(self):

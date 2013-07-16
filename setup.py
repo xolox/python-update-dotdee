@@ -9,7 +9,7 @@ readme_file = join(dirname(abspath(__file__)), 'README.rst')
 readme_text = open(readme_file, 'r').read()
 
 setup(name='update-dotdee',
-      version='1.0.4',
+      version='1.0.5',
       description="Generic modularized configuration file manager",
       long_description=readme_text,
       url='https://github.com/xolox/python-update-dotdee',
