@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 16, 2013
+# Last Change: July 21, 2013
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -14,6 +14,9 @@ If FILENAME exists but the corresponding directory does not exist yet, the
 directory is created and FILENAME is moved into the directory so that its
 existing contents are preserved.
 """
+
+# Semi-standard module versioning.
+__version__ = '1.0.6'
 
 # Standard library modules.
 import getopt
