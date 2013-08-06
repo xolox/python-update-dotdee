@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 21, 2013
+# Last Change: August 6, 2013
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -16,7 +16,7 @@ existing contents are preserved.
 """
 
 # Semi-standard module versioning.
-__version__ = '1.0.6'
+__version__ = '1.0.7'
 
 # Standard library modules.
 import getopt
