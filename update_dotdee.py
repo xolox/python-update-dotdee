@@ -16,7 +16,7 @@ existing contents are preserved.
 """
 
 # Semi-standard module versioning.
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 
 # Standard library modules.
 import getopt
@@ -29,19 +29,18 @@ import sys
 import textwrap
 
 # External dependencies.
-from coloredlogs import ColoredStreamHandler
+import coloredlogs
 from humanfriendly import format_path
 from natsort import natsort
 
 # Initialize the logger.
-logger = logging.getLogger('update-dotdee')
-logger.setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
 
 def main():
     """
     Command line interface for the ``update-dotdee`` program.
     """
-    logger.addHandler(ColoredStreamHandler())
+    coloredlogs.install()
     program = UpdateDotDee()
     try:
         if program.parse_arguments(sys.argv[1:]):
