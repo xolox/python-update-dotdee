@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: September 8, 2013
+# Last Change: May 6, 2014
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -16,7 +16,7 @@ existing contents are preserved.
 """
 
 # Semi-standard module versioning.
-__version__ = '1.0.9'
+__version__ = '1.0.10'
 
 # Standard library modules.
 import getopt
@@ -135,9 +135,11 @@ class UpdateDotDee:
                 # Compare the checksums.
                 if current_checksum != previous_checksum:
                     if force:
-                        self.logger.warn("Contents of generated file were modified but --force was used.")
+                        self.logger.warn("Contents of generated file (%s) were modified but --force was used so overwriting anyway.", format_path(self.filename))
                     else:
-                        raise RefuseToOverwrite, "Contents of generated file were modified! Refusing to overwrite."
+                        msg = "The contents of the generated file %s were modified and I'm refusing to overwrite it! " \
+                              "If you're sure you want to proceed, delete the file %s and rerun your command."
+                        raise RefuseToOverwrite, msg % (format_path(self.filename), format_path(self.checksum_file))
         # Update the generated file.
         self.write_file(self.filename, contents)
         # Update the checksum.
