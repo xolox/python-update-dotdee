@@ -13,7 +13,7 @@ import os
 from humanfriendly.testing import TemporaryDirectory, TestCase, run_cli
 
 # Modules included in our package.
-from update_dotdee import main
+from update_dotdee.cli import main
 
 
 class UpdateDotDeeTestCase(TestCase):

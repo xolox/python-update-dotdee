@@ -1,3 +1,4 @@
-coloredlogs >= 0.4.3
-humanfriendly >= 1.5
-naturalsort >= 1.0.3
+coloredlogs >= 7.0
+humanfriendly >= 4.3
+naturalsort >= 1.5.1
+property-manager >= 2.2

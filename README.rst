@@ -47,7 +47,7 @@ command line interface is described below.
 ..
 .. [[[cog
 .. from humanfriendly.usage import inject_usage
-.. inject_usage('update_dotdee')
+.. inject_usage('update_dotdee.cli')
 .. ]]]
 
 **Usage:** `update-dotdee FILENAME`
@@ -59,6 +59,18 @@ If FILENAME exists but the corresponding directory does not exist yet, the
 directory is created and FILENAME is moved into the directory so that its
 existing contents are preserved.
 
+**Supported options:**
+
+.. csv-table::
+   :header: Option, Description
+   :widths: 30, 70
+
+
+   "``-f``, ``--force``","Update FILENAME even if it contains local modifications,
+   instead of aborting with an error message."
+   "``-v``, ``--verbose``",Increase logging verbosity (can be repeated).
+   "``-q``, ``--quiet``",Decrease logging verbosity (can be repeated).
+   "``-h``, ``--help``",Show this message and exit.
 
 .. [[[end]]]
 

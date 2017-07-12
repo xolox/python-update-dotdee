@@ -14,3 +14,9 @@ the `update-dotdee` package.
 
 .. automodule:: update_dotdee
    :members:
+
+:mod:`update_dotdee.cli`
+------------------------
+
+.. automodule:: update_dotdee.cli
+   :members:

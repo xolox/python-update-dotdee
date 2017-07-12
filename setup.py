@@ -68,7 +68,7 @@ setup(name='update-dotdee',
       author_email='peter@peterodding.com',
       packages=find_packages(),
       entry_points=dict(console_scripts=[
-          'update-dotdee = update_dotdee:main',
+          'update-dotdee = update_dotdee.cli:main',
       ]),
       install_requires=get_requirements('requirements.txt'),
       classifiers=[
