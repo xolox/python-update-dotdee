@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: May 6, 2014
+# Last Change: July 12, 2017
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -16,7 +16,7 @@ existing contents are preserved.
 """
 
 # Semi-standard module versioning.
-__version__ = '1.0.10'
+__version__ = '1.1'
 
 # Standard library modules.
 import getopt
@@ -45,7 +45,7 @@ def main():
     try:
         if program.parse_arguments(sys.argv[1:]):
             program.update_file()
-    except Exception, e:
+    except Exception as e:
         program.logger.exception(e)
         sys.exit(1)
 
@@ -85,12 +85,12 @@ class UpdateDotDee:
                 self.print_usage()
                 return False
             elif len(arguments) != 1:
-                raise Exception, "Expected a filename as the first and only argument!"
+                raise Exception("Expected a filename as the first and only argument!")
             elif not os.path.isfile(arguments[0]):
-                raise Exception, "The given filename doesn't point to an existing file!"
+                raise Exception("The given filename doesn't point to an existing file!")
             self.filename = arguments[0]
             return True
-        except Exception, e:
+        except Exception as e:
             self.logger.error("Failed to parse command line arguments!")
             self.logger.exception(e)
             self.print_usage()
@@ -100,7 +100,7 @@ class UpdateDotDee:
         """
         Print a usage message to the console.
         """
-        print textwrap.dedent(__doc__).strip()
+        print(textwrap.dedent(__doc__).strip())
 
     def update_file(self, force=None):
         """
@@ -139,7 +139,7 @@ class UpdateDotDee:
                     else:
                         msg = "The contents of the generated file %s were modified and I'm refusing to overwrite it! " \
                               "If you're sure you want to proceed, delete the file %s and rerun your command."
-                        raise RefuseToOverwrite, msg % (format_path(self.filename), format_path(self.checksum_file))
+                        raise RefuseToOverwrite(msg % (format_path(self.filename), format_path(self.checksum_file)))
         # Update the generated file.
         self.write_file(self.filename, contents)
         # Update the checksum.
@@ -178,7 +178,7 @@ class UpdateDotDee:
         Hash the text file using the SHA1 algorithm.
         """
         self.logger.debug("Calculating SHA1 of %s", format_path(self.filename))
-        handle = open(self.filename)
+        handle = open(self.filename, 'rb')
         context = hashlib.sha1()
         context.update(handle.read())
         handle.close()
