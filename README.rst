@@ -37,7 +37,7 @@ You can install the ``update-dotdee`` program using the following command::
 Contact
 -------
 
-The latest version of ``update-dotdee`` is available on PyPi_ and GitHub_. For
+The latest version of ``update-dotdee`` is available on PyPI_ and GitHub_. For
 bug reports please create an issue on GitHub_. If you have questions,
 suggestions, etc. feel free to send me an e-mail at `peter@peterodding.com`_.
 
@@ -46,7 +46,7 @@ License
 
 This software is licensed under the `MIT license`_.
 
-© 2013 Peter Odding.
+© 2017 Peter Odding.
 
 .. External references:
 .. _Debian: http://www.debian.org/
@@ -55,4 +55,4 @@ This software is licensed under the `MIT license`_.
 .. _MIT license: http://en.wikipedia.org/wiki/MIT_License
 .. _naturalsort: https://pypi.python.org/pypi/naturalsort
 .. _peter@peterodding.com: peter@peterodding.com
-.. _PyPi: https://pypi.python.org/pypi/update-dotdee
+.. _PyPI: https://pypi.python.org/pypi/update-dotdee
