@@ -48,7 +48,12 @@ class UpdateDotDee(PropertyManager):
         return False
 
     def update_file(self, force=None):
-        """Update the file with the contents of the files in the ``.d`` directory."""
+        """
+        Update the file with the contents of the files in the ``.d`` directory.
+
+        :param force: Override the value of :attr:`force` (a boolean or
+                      :data:`None`).
+        """
         if force is None:
             force = self.force
         if not os.path.isdir(self.directory):
@@ -94,7 +99,12 @@ class UpdateDotDee(PropertyManager):
         handle.close()
 
     def read_file(self, filename):
-        """Read a text file and provide feedback to the user."""
+        """
+        Read a text file and provide feedback to the user.
+
+        :param filename: The pathname of the file to read (a string).
+        :returns: The contents of the file (a string).
+        """
         logger.info("Reading file: %s", format_path(filename))
         handle = open(filename)
         contents = handle.read()
@@ -106,7 +116,12 @@ class UpdateDotDee(PropertyManager):
         return contents.rstrip()
 
     def write_file(self, filename, contents):
-        """Write a text file and provide feedback to the user."""
+        """
+        Write a text file and provide feedback to the user.
+
+        :param filename: The pathname of the file to write (a string).
+        :param contents: The new contents of the file (a string).
+        """
         logger.info("Writing file: %s", format_path(filename))
         handle = open(filename, 'w')
         handle.write(contents.rstrip() + "\n")
@@ -116,21 +131,23 @@ class UpdateDotDee(PropertyManager):
                      num_lines,
                      '' if num_lines == 1 else 's',
                      format_path(filename))
-        return contents
 
     def hash_contents(self):
-        """Hash the text file using the SHA1 algorithm."""
+        """
+        Hash the text file using the SHA1 algorithm.
+
+        :returns: A string containing a hexadecimal SHA1 digest.
+        """
         logger.debug("Calculating SHA1 of %s", format_path(self.filename))
-        handle = open(self.filename, 'rb')
         context = hashlib.sha1()
-        context.update(handle.read())
-        handle.close()
+        with open(self.filename, 'rb') as handle:
+            context.update(handle.read())
         hexdigest = context.hexdigest()
         logger.debug("SHA1 of %s is %s", format_path(self.filename), hexdigest)
         return hexdigest
 
     def create_directory(self):
-        """Make sure the configuration directory exists."""
+        """Make sure :attr:`directory` exists."""
         if not os.path.isdir(self.directory):
             logger.info("Creating directory %s", format_path(self.directory))
             os.makedirs(self.directory)
