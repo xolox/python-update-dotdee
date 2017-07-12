@@ -13,7 +13,7 @@ import os
 import shutil
 
 # External dependencies.
-from humanfriendly import format_path
+from humanfriendly import compact, format_path
 from natsort import natsort
 from property_manager import PropertyManager, mutable_property, required_property
 
@@ -83,14 +83,26 @@ class UpdateDotDee(PropertyManager):
                 # Compare the checksums.
                 if current_checksum != previous_checksum:
                     if force:
-                        logger.warn(
-                            "Contents of generated file (%s) were modified but"
-                            " --force was used so overwriting anyway.",
-                            format_path(self.filename))
+                        logger.warning(compact(
+                            """
+                            The contents of the file to generate ({filename})
+                            were modified but --force was used so overwriting
+                            anyway!
+                            """,
+                            filename=format_path(self.filename),
+                        ))
                     else:
-                        msg = "The contents of the generated file %s were modified and I'm refusing to overwrite it! " \
-                              "If you're sure you want to proceed, delete the file %s and rerun your command."
-                        raise RefuseToOverwrite(msg % (format_path(self.filename), format_path(self.checksum_file)))
+                        raise RefuseToOverwrite(compact(
+                            """
+                            The contents of the file to generate ({filename})
+                            were modified and I'm refusing to overwrite it! If
+                            you're sure you want to proceed, use the --force
+                            option or delete the file {checksum_file} and
+                            retry.
+                            """,
+                            filename=format_path(self.filename),
+                            checksum_file=format_path(self.checksum_file),
+                        ))
         # Update the generated file.
         self.write_file(self.filename, contents)
         # Update the checksum.
