@@ -76,7 +76,7 @@ class UpdateDotDee(PropertyManager):
         for filename in natsort(self.context.list_entries(self.directory)):
             if not filename.startswith('.'):
                 blocks.append(self.read_file(os.path.join(self.directory, filename)))
-        contents = "\n\n".join(blocks)
+        contents = b"\n\n".join(blocks)
         # Make sure the generated file was not modified? We skip this on the
         # first run, when the original file was just moved into the newly
         # created directory (see above).
@@ -132,7 +132,7 @@ class UpdateDotDee(PropertyManager):
         :param contents: The new contents of the file (a string).
         """
         logger.info("Writing file: %s", format_path(filename))
-        contents = contents.rstrip() + "\n"
+        contents = contents.rstrip() + b"\n"
         self.context.write_file(filename, contents)
         logger.debug("Wrote %s to %s.",
                      pluralize(len(contents.splitlines()), "line"),
