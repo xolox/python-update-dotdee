@@ -1,37 +1,94 @@
 #!/usr/bin/env python
 
+# Setup script for the `update-dotdee' package.
+#
+# Author: Peter Odding <peter@peterodding.com>
+# Last Change: July 12, 2017
+# URL: https://github.com/xolox/python-update-dotdee
+
+"""
+Setup script for the `update-dotdee` package.
+
+**python setup.py install**
+  Install from the working directory into the current Python environment.
+
+**python setup.py sdist**
+  Build a source distribution archive.
+
+**python setup.py bdist_wheel**
+  Build a wheel distribution archive.
+"""
+
+# Standard library modules.
+import codecs
+import os
 import re
-from os.path import abspath, dirname, join
+
+# De-facto standard solution for Python packaging.
 from setuptools import setup
 
-# Find the directory where the source distribution was unpacked.
-source_directory = dirname(abspath(__file__))
 
-# Find the current version.
-module = join(source_directory, 'update_dotdee.py')
-for line in open(module, 'r'):
-    match = re.match(r'^__version__\s*=\s*["\']([^"\']+)["\']$', line)
-    if match:
-        version_string = match.group(1)
-        break
-else:
-    raise Exception("Failed to extract version from pip_accel/__init__.py!")
+def get_contents(*args):
+    """Get the contents of a file relative to the source distribution directory."""
+    with codecs.open(get_absolute_path(*args), 'r', 'UTF-8') as handle:
+        return handle.read()
 
-# Fill in the long description (for the benefit of PyPi)
-# with the contents of README.rst (rendered by GitHub).
-readme_file = join(source_directory, 'README.rst')
-readme_text = open(readme_file, 'r').read()
 
-# Fill in the "install_requires" field based on requirements.txt.
-requirements = [l.strip() for l in open(join(source_directory, 'requirements.txt'), 'r')]
+def get_version(*args):
+    """Extract the version number from a Python module."""
+    contents = get_contents(*args)
+    metadata = dict(re.findall('__([a-z]+)__ = [\'"]([^\'"]+)', contents))
+    return metadata['version']
+
+
+def get_requirements(*args):
+    """Get requirements from pip requirement files."""
+    requirements = set()
+    contents = get_contents(*args)
+    for line in contents.splitlines():
+        # Strip comments.
+        line = re.sub(r'^#.*|\s#.*', '', line)
+        # Ignore empty lines
+        if line and not line.isspace():
+            requirements.add(re.sub(r'\s+', '', line))
+    return sorted(requirements)
+
+
+def get_absolute_path(*args):
+    """Transform relative pathnames into absolute pathnames."""
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), *args)
+
 
 setup(name='update-dotdee',
-      version=version_string,
+      version=get_version('update_dotdee.py'),
       description="Generic modularized configuration file manager",
-      long_description=readme_text,
+      long_description=get_contents('README.rst'),
       url='https://github.com/xolox/python-update-dotdee',
-      author='Peter Odding',
+      author="Peter Odding",
       author_email='peter@peterodding.com',
       py_modules=['update_dotdee'],
-      entry_points={'console_scripts': ['update-dotdee = update_dotdee:main']},
-      install_requires=requirements)
+      entry_points=dict(console_scripts=[
+          'update-dotdee = update_dotdee:main',
+      ]),
+      install_requires=get_requirements('requirements.txt'),
+      classifiers=[
+          'Development Status :: 5 - Production/Stable',
+          'Environment :: Console',
+          'Intended Audience :: Developers',
+          'Intended Audience :: Information Technology',
+          'Intended Audience :: System Administrators',
+          'License :: OSI Approved :: MIT License',
+          'Natural Language :: English',
+          'Operating System :: POSIX',
+          'Operating System :: POSIX :: Linux',
+          'Operating System :: Unix',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: Implementation :: CPython',
+          'Topic :: Software Development',
+          'Topic :: Software Development :: Libraries',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+          'Topic :: System :: Systems Administration',
+          'Topic :: Utilities',
+      ])
