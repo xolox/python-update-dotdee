@@ -25,7 +25,7 @@ import os
 import re
 
 # De-facto standard solution for Python packaging.
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 def get_contents(*args):
@@ -60,13 +60,13 @@ def get_absolute_path(*args):
 
 
 setup(name='update-dotdee',
-      version=get_version('update_dotdee.py'),
+      version=get_version('update_dotdee', '__init__.py'),
       description="Generic modularized configuration file manager",
       long_description=get_contents('README.rst'),
       url='https://github.com/xolox/python-update-dotdee',
       author="Peter Odding",
       author_email='peter@peterodding.com',
-      py_modules=['update_dotdee'],
+      packages=find_packages(),
       entry_points=dict(console_scripts=[
           'update-dotdee = update_dotdee:main',
       ]),
@@ -84,8 +84,14 @@ setup(name='update-dotdee',
           'Operating System :: Unix',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: Implementation :: CPython',
+          'Programming Language :: Python :: Implementation :: PyPy',
           'Topic :: Software Development',
           'Topic :: Software Development :: Libraries',
           'Topic :: Software Development :: Libraries :: Python Modules',

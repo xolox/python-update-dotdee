@@ -1,0 +1,3 @@
+[run]
+source = update_dotdee
+omit = update_dotdee/tests.py
