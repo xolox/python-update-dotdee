@@ -36,10 +36,9 @@ from natsort import natsort
 # Initialize the logger.
 logger = logging.getLogger(__name__)
 
+
 def main():
-    """
-    Command line interface for the ``update-dotdee`` program.
-    """
+    """Command line interface for the ``update-dotdee`` program."""
     coloredlogs.install()
     program = UpdateDotDee()
     try:
@@ -49,25 +48,19 @@ def main():
         program.logger.exception(e)
         sys.exit(1)
 
+
 class UpdateDotDee:
 
-    """
-    The update-dotdee program is implemented as a class which
-    can be used both from the command line and as a Python API.
-    """
+    """The :class:`UpdateDotDee` class implements the Python API of update-dotdee."""
 
     def __init__(self, filename=None, force=False):
-        """
-        Initialize the update-dotdee program.
-        """
+        """Initialize the update-dotdee program."""
         self.force = force
         self.filename = filename
         self.logger = logger
 
     def parse_arguments(self, arguments):
-        """
-        Parse and validate the command line arguments.
-        """
+        """Parse and validate the command line arguments."""
         try:
             options, arguments = getopt.getopt(arguments, 'fvh', ['force', 'verbose', 'help'])
             for option, value in options:
@@ -97,15 +90,11 @@ class UpdateDotDee:
             sys.exit(1)
 
     def print_usage(self):
-        """
-        Print a usage message to the console.
-        """
+        """Print a usage message to the console."""
         print(textwrap.dedent(__doc__).strip())
 
     def update_file(self, force=None):
-        """
-        Update the file with the contents of the files in the ``.d`` directory.
-        """
+        """Update the file with the contents of the files in the ``.d`` directory."""
         if force is None:
             force = self.force
         if not os.path.isdir(self.directory):
@@ -135,7 +124,10 @@ class UpdateDotDee:
                 # Compare the checksums.
                 if current_checksum != previous_checksum:
                     if force:
-                        self.logger.warn("Contents of generated file (%s) were modified but --force was used so overwriting anyway.", format_path(self.filename))
+                        self.logger.warn(
+                            "Contents of generated file (%s) were modified but"
+                            " --force was used so overwriting anyway.",
+                            format_path(self.filename))
                     else:
                         msg = "The contents of the generated file %s were modified and I'm refusing to overwrite it! " \
                               "If you're sure you want to proceed, delete the file %s and rerun your command."
@@ -148,9 +140,7 @@ class UpdateDotDee:
         handle.close()
 
     def read_file(self, filename):
-        """
-        Read a text file and optionally provide feedback to the user.
-        """
+        """Read a text file and optionally provide feedback to the user."""
         self.logger.info("Reading file: %s", format_path(filename))
         handle = open(filename)
         contents = handle.read()
@@ -162,9 +152,7 @@ class UpdateDotDee:
         return contents.rstrip()
 
     def write_file(self, filename, contents):
-        """
-        Write a text file and optionally provide feedback to the user.
-        """
+        """Write a text file and optionally provide feedback to the user."""
         self.logger.info("Writing file: %s", format_path(filename))
         handle = open(filename, 'w')
         handle.write(contents.rstrip() + "\n")
@@ -174,9 +162,7 @@ class UpdateDotDee:
         return contents
 
     def hash_contents(self):
-        """
-        Hash the text file using the SHA1 algorithm.
-        """
+        """Hash the text file using the SHA1 algorithm."""
         self.logger.debug("Calculating SHA1 of %s", format_path(self.filename))
         handle = open(self.filename, 'rb')
         context = hashlib.sha1()
@@ -187,31 +173,22 @@ class UpdateDotDee:
         return hexdigest
 
     def create_directory(self):
-        """
-        Make sure the configuration directory exists.
-        """
+        """Make sure the configuration directory exists."""
         if not os.path.isdir(self.directory):
             self.logger.info("Creating directory %s", format_path(self.directory))
             os.makedirs(self.directory)
 
     @property
     def checksum_file(self):
-        """
-        Get the file where the checksum of the generated file is stored.
-        """
+        """Get the file where the checksum of the generated file is stored."""
         return os.path.join(self.directory, '.checksum')
 
     @property
     def directory(self):
-        """
-        Get the directory containing the modularized files.
-        """
+        """Get the directory containing the modularized files."""
         return "%s.d" % self.filename
 
-class RefuseToOverwrite(Exception):
-    """
-    Custom exception that is raised when update-dotdee notices that a generated
-    file was modified.
-    """
 
-# vim: ts=4 sw=4 et
+class RefuseToOverwrite(Exception):
+
+    """Raised when update-dotdee notices that a generated file was modified."""

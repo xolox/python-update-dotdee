@@ -83,7 +83,6 @@ class UpdateDotDeeTestCase(TestCase):
         expected_contents = "This content should be preserved.\n"
         with TemporaryDirectory() as temporary_directory:
             filename = os.path.join(temporary_directory, 'config')
-            directory = '%s.d' % filename
             # Create the configuration file and directory.
             write_file(filename, expected_contents)
             # Use the command line interface to initialize the directory.
