@@ -68,6 +68,11 @@ existing contents are preserved.
 
    "``-f``, ``--force``","Update FILENAME even if it contains local modifications,
    instead of aborting with an error message."
+   "``-u``, ``--use-sudo``","Enable the use of ""sudo"" to update configuration files that are not
+   readable and/or writable for the current user (or the user logged
+   in to a remote system over SSH)."
+   "``-r``, ``--remote-host=SSH_ALIAS``","Operate on a remote system instead of the local system. The
+   ``SSH_ALIAS`` argument gives the SSH alias of the remote host."
    "``-v``, ``--verbose``",Increase logging verbosity (can be repeated).
    "``-q``, ``--quiet``",Decrease logging verbosity (can be repeated).
    "``-h``, ``--help``",Show this message and exit.

@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 12, 2017
+# Last Change: July 13, 2017
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """Test suite for `update-dotdee`."""
@@ -26,6 +26,13 @@ class UpdateDotDeeTestCase(TestCase):
             returncode, output = run_cli(main, *arguments)
             assert returncode == 0
             assert "Usage: update-dotdee" in output
+
+    def test_cli_invalid_arguments(self):
+        """Test the handling of invalid arguments by the command line interface."""
+        for arguments in [], ['-h'], ['--help']:
+            returncode, output = run_cli(main, 'first', 'second', merged=True)
+            assert returncode != 0
+            assert "first and only" in output
 
     def test_natural_order(self):
         """Verify the natural order sorting of the snippets in the configuration file."""
@@ -80,11 +87,10 @@ class UpdateDotDeeTestCase(TestCase):
 
     def test_refuse_to_overwrite(self):
         """Test that local modifications are not overwritten."""
-        expected_contents = "This content should be preserved.\n"
         with TemporaryDirectory() as temporary_directory:
             filename = os.path.join(temporary_directory, 'config')
             # Create the configuration file and directory.
-            write_file(filename, expected_contents)
+            write_file(filename, "Original content.\n")
             # Use the command line interface to initialize the directory.
             returncode, output = run_cli(main, filename)
             assert returncode == 0
@@ -94,6 +100,27 @@ class UpdateDotDeeTestCase(TestCase):
             returncode, output = run_cli(main, filename, merged=True)
             assert returncode != 0
             assert "refusing to overwrite" in output
+
+    def test_force_overwrite(self):
+        """Test that local modifications can be overwritten when allowed."""
+        expected_contents = "Original content.\n"
+        with TemporaryDirectory() as temporary_directory:
+            filename = os.path.join(temporary_directory, 'config')
+            # Create the configuration file and directory.
+            write_file(filename, expected_contents)
+            # Use the command line interface to initialize the directory.
+            returncode, output = run_cli(main, filename)
+            assert returncode == 0
+            # Modify the generated configuration file.
+            write_file(filename, "Not the same thing.\n")
+            # Use the command line interface to update the configuration file,
+            # overriding the normal sanity check.
+            returncode, output = run_cli(main, '--force', filename, merged=True)
+            assert returncode == 0
+            assert "overwriting anyway" in output
+            # Make sure the original content was restored.
+            with open(filename) as handle:
+                assert handle.read() == expected_contents
 
 
 def write_file(filename, contents=''):

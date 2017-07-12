@@ -1,4 +1,5 @@
 coloredlogs >= 7.0
+executor >= 18.0
 humanfriendly >= 4.3
 naturalsort >= 1.5.1
 property-manager >= 2.2
