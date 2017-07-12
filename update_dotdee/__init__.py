@@ -18,7 +18,7 @@ from natsort import natsort
 from property_manager import PropertyManager, mutable_property, required_property
 
 # Semi-standard module versioning.
-__version__ = '1.1'
+__version__ = '2.0'
 
 # Initialize a logger for this module.
 logger = logging.getLogger(__name__)
