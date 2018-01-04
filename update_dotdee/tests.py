@@ -63,7 +63,7 @@ class UpdateDotDeeTestCase(TestCase):
                 # Check the order of the lines (natural order instead of lexicographical).
                 assert lines.index(first) < lines.index(middle)
                 assert lines.index(middle) < lines.index(last)
-    
+
     def test_executable(self):
         """Test that executable files are run, and non-executable ones aren't."""
         executable = "#!/bin/sh\necho I am echo output.\n"
