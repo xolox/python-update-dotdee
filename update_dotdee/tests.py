@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 13, 2017
+# Last Change: January 4, 2018
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """Test suite for `update-dotdee`."""
@@ -63,6 +63,35 @@ class UpdateDotDeeTestCase(TestCase):
                 # Check the order of the lines (natural order instead of lexicographical).
                 assert lines.index(first) < lines.index(middle)
                 assert lines.index(middle) < lines.index(last)
+    
+    def test_executable(self):
+        """Test that executable files are run, and non-executable ones aren't."""
+        executable = "#!/bin/sh\necho I am echo output.\n"
+        exec_result = "I am echo output.\n"
+        non_executable = "Don't run me.\n"
+        with TemporaryDirectory() as temporary_directory:
+            filename = os.path.join(temporary_directory, 'config')
+            directory = '%s.d' % filename
+            # Create the configuration file and directory.
+            write_file(filename)
+            os.makedirs(directory)
+            # Create the files with configuration snippets.
+            write_file(os.path.join(directory, '01-exec.conf'), executable)
+            write_file(os.path.join(directory, '02-noexec.conf'), non_executable)
+            # Make 01-exec.conf executable and make 02-noexec.conf not.
+            os.chmod(os.path.join(directory, '01-exec.conf'), int('755', 8))
+            os.chmod(os.path.join(directory, '02-noexec.conf'), int('644', 8))
+            # Use the command line interface to update the configuration file.
+            returncode, output = run_cli(main, filename)
+            assert returncode == 0
+            # Make sure the configuration file was updated.
+            assert os.path.isfile(filename)
+            assert os.path.getsize(filename) > 0
+            with open(filename) as handle:
+                lines = handle.readlines()
+                # Make sure the lines are present.
+                assert exec_result in lines
+                assert non_executable in lines
 
     def test_create_directory(self):
         """Test that the ``.d`` directory is created on the first run."""
