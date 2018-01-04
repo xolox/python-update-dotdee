@@ -10,6 +10,7 @@
 import hashlib
 import logging
 import os
+import subprocess
 
 # External dependencies.
 from executor.contexts import LocalContext
@@ -75,7 +76,12 @@ class UpdateDotDee(PropertyManager):
         blocks = []
         for filename in natsort(self.context.list_entries(self.directory)):
             if not filename.startswith('.'):
-                blocks.append(self.read_file(os.path.join(self.directory, filename)))
+                fullname = os.path.join(self.directory, filename)
+                # executor doesn't have an is_executable shortcut.
+                if self.context.test('test', '-x', fullname):
+                    blocks.append(self.execute_file(fullname))
+                else:
+                    blocks.append(self.read_file(fullname))
         contents = b"\n\n".join(blocks)
         # Make sure the generated file was not modified? We skip this on the
         # first run, when the original file was just moved into the newly
@@ -127,6 +133,21 @@ class UpdateDotDee(PropertyManager):
                      format_path(filename))
         return contents.rstrip()
 
+    def execute_file(self, filename):
+        """
+        Execute a file and provide feedback to the user.
+
+        :param filename: The pathname of the file to execute (a string).
+        :returns: Whatever the executed file returns on stdout (a string).
+        """
+        logger.info("Executing file: %s", format_path(filename))
+        contents = self.context.execute(filename, capture=True).stdout
+        num_lines = len(contents.splitlines())
+        logger.debug("Execution of %s yielded %i line%s of output",
+                     format_path(filename), num_lines,
+                     '' if num_lines == 1 else 's')
+        return contents.rstrip()
+
     def write_file(self, filename, contents):
         """
         Write a text file and provide feedback to the user.
@@ -152,7 +173,7 @@ class UpdateDotDee(PropertyManager):
         context.update(self.context.read_file(self.filename))
         hexdigest = context.hexdigest()
         logger.debug("SHA1 of %s is %s", format_path(self.filename), hexdigest)
-        return hexdigest
+        return hexdigest.rstrip()
 
 
 class RefuseToOverwrite(Exception):
