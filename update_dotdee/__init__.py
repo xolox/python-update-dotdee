@@ -10,7 +10,6 @@
 import hashlib
 import logging
 import os
-import subprocess
 
 # External dependencies.
 from executor.contexts import LocalContext
@@ -173,7 +172,7 @@ class UpdateDotDee(PropertyManager):
         context.update(self.context.read_file(self.filename))
         hexdigest = context.hexdigest()
         logger.debug("SHA1 of %s is %s", format_path(self.filename), hexdigest)
-        return hexdigest.rstrip()
+        return hexdigest
 
 
 class RefuseToOverwrite(Exception):
