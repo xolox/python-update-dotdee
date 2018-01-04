@@ -82,7 +82,10 @@ class UpdateDotDee(PropertyManager):
         # created directory (see above).
         if all(map(self.context.is_file, (self.filename, self.checksum_file))):
             logger.info("Checking for local changes to %s ..", format_path(self.filename))
-            if self.hash_contents() != self.context.read_file(self.checksum_file):
+            # Decode to utf-8 string, otherwise false negatives will happen.
+            localhash = self.context.read_file(self.checksum_file).decode("utf-8")
+            logger.debug("Saved checksum is %s", localhash)
+            if self.hash_contents() != localhash:
                 if force:
                     logger.warning(compact(
                         """
