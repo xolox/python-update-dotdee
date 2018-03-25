@@ -1,5 +1,5 @@
-update-dotdee: Generic modularized configuration file manager
-=============================================================
+update-dotdee: Generic modular configuration file manager
+=========================================================
 
 .. image:: https://travis-ci.org/xolox/python-update-dotdee.svg?branch=master
    :target: https://travis-ci.org/xolox/python-update-dotdee

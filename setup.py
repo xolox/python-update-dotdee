@@ -61,7 +61,7 @@ def get_absolute_path(*args):
 
 setup(name='update-dotdee',
       version=get_version('update_dotdee', '__init__.py'),
-      description="Generic modularized configuration file manager",
+      description="Generic modular configuration file manager",
       long_description=get_contents('README.rst'),
       url='https://github.com/xolox/python-update-dotdee',
       author="Peter Odding",

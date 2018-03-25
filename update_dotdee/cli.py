@@ -1,4 +1,4 @@
-# Generic modularized configuration file manager.
+# Generic modular configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
 # Last Change: July 13, 2017

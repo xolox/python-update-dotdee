@@ -1,4 +1,4 @@
-# Generic modularized configuration file manager.
+# Generic modular configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
 # Last Change: March 25, 2018
@@ -92,7 +92,7 @@ class UpdateDotDee(PropertyManager):
             local_file = os.path.join(self.directory, 'local')
             logger.info("Moving %s to %s ..", format_path(self.filename), format_path(local_file))
             self.context.execute('mv', self.filename, local_file, tty=False)
-        # Read the modularized configuration file(s).
+        # Read the modular configuration file(s).
         blocks = []
         for entry in natsort(self.context.list_entries(self.directory)):
             if not entry.startswith('.'):
