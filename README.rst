@@ -110,6 +110,9 @@ Some notes about how update-dotdee works:
 - The files in the ``.d`` directory are concatenated in the natural sorting
   order of the filenames (as implemented by the naturalsort_ package).
 
+- Executable files in the ``.d`` directory are executed and their standard
+  output is incorporated into the generated contents (since version 4.0).
+
 Use cases
 ---------
 
