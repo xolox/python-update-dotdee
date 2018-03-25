@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 13, 2017
+# Last Change: March 25, 2018
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """The Python API of the update-dotdee program."""
@@ -73,14 +73,13 @@ class UpdateDotDee(PropertyManager):
             self.context.execute('mv', self.filename, local_file, tty=False)
         # Read the modularized configuration file(s).
         blocks = []
-        for filename in natsort(self.context.list_entries(self.directory)):
-            if not filename.startswith('.'):
-                fullname = os.path.join(self.directory, filename)
-                # executor doesn't have an is_executable shortcut.
-                if self.context.test('test', '-x', fullname):
-                    blocks.append(self.execute_file(fullname))
+        for entry in natsort(self.context.list_entries(self.directory)):
+            if not entry.startswith('.'):
+                filename = os.path.join(self.directory, entry)
+                if self.context.is_executable(filename):
+                    blocks.append(self.execute_file(filename))
                 else:
-                    blocks.append(self.read_file(fullname))
+                    blocks.append(self.read_file(filename))
         contents = b"\n\n".join(blocks)
         # Make sure the generated file was not modified? We skip this on the
         # first run, when the original file was just moved into the newly
