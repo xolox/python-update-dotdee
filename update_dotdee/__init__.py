@@ -52,6 +52,27 @@ class UpdateDotDee(PropertyManager):
         """:data:`True` to overwrite modified files, :data:`False` to abort (the default)."""
         return False
 
+    @property
+    def new_checksum(self):
+        """Get the SHA1 digest of the contents of :attr:`filename` (a string)."""
+        if self.context.is_file(self.filename):
+            friendly_name = format_path(self.filename)
+            logger.debug("Calculating SHA1 of %s ..", friendly_name)
+            context = hashlib.sha1()
+            context.update(self.context.read_file(self.filename))
+            checksum = context.hexdigest()
+            logger.debug("The SHA1 digest of %s is %s.", friendly_name, checksum)
+            return checksum
+
+    @property
+    def old_checksum(self):
+        """Get the checksum stored in :attr:`checksum_file` (a string or :data:`None`)."""
+        if self.context.is_file(self.checksum_file):
+            logger.debug("Reading saved checksum from %s ..", format_path(self.checksum_file))
+            checksum = self.context.read_file(self.checksum_file)
+            logger.debug("Saved checksum is %s.", checksum)
+            return checksum
+
     def update_file(self, force=None):
         """
         Update the file with the contents of the files in the ``.d`` directory.
@@ -86,10 +107,7 @@ class UpdateDotDee(PropertyManager):
         # created directory (see above).
         if all(map(self.context.is_file, (self.filename, self.checksum_file))):
             logger.info("Checking for local changes to %s ..", format_path(self.filename))
-            # Decode to utf-8 string, otherwise false negatives will happen.
-            localhash = self.context.read_file(self.checksum_file).decode("utf-8")
-            logger.debug("Saved checksum is %s", localhash)
-            if self.hash_contents() != localhash:
+            if self.new_checksum != self.old_checksum:
                 if force:
                     logger.warning(compact(
                         """
@@ -114,7 +132,7 @@ class UpdateDotDee(PropertyManager):
         # Update the generated configuration file.
         self.write_file(self.filename, contents)
         # Update the checksum file.
-        self.context.write_file(self.checksum_file, self.hash_contents())
+        self.context.write_file(self.checksum_file, self.new_checksum)
 
     def read_file(self, filename):
         """
@@ -159,19 +177,6 @@ class UpdateDotDee(PropertyManager):
         logger.debug("Wrote %s to %s.",
                      pluralize(len(contents.splitlines()), "line"),
                      format_path(filename))
-
-    def hash_contents(self):
-        """
-        Hash the text file using the SHA1 algorithm.
-
-        :returns: A string containing a hexadecimal SHA1 digest.
-        """
-        logger.debug("Calculating SHA1 of %s", format_path(self.filename))
-        context = hashlib.sha1()
-        context.update(self.context.read_file(self.filename))
-        hexdigest = context.hexdigest()
-        logger.debug("SHA1 of %s is %s", format_path(self.filename), hexdigest)
-        return hexdigest
 
 
 class RefuseToOverwrite(Exception):

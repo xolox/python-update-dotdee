@@ -1,7 +1,7 @@
 # Generic modularized configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: January 4, 2018
+# Last Change: March 25, 2018
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """Test suite for `update-dotdee`."""
@@ -13,6 +13,7 @@ import os
 from humanfriendly.testing import TemporaryDirectory, TestCase, run_cli
 
 # Modules included in our package.
+from update_dotdee import UpdateDotDee
 from update_dotdee.cli import main
 
 
@@ -150,6 +151,18 @@ class UpdateDotDeeTestCase(TestCase):
             # Make sure the original content was restored.
             with open(filename) as handle:
                 assert handle.read() == expected_contents
+
+    def test_same_checksum(self):
+        """Test that old and new checksums are compared correctly."""
+        with TemporaryDirectory() as temporary_directory:
+            # Create a configuration file to manage.
+            filename = os.path.join(temporary_directory, 'config')
+            write_file(filename, "Original content.\n")
+            # Run update-dotdee the first time to create the checksum file.
+            program = UpdateDotDee(filename=filename)
+            program.update_file(force=False)
+            # Sanity check that the persisted checksum matches a checksum computed at runtime.
+            assert program.old_checksum == program.new_checksum
 
 
 def write_file(filename, contents=''):
