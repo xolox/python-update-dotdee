@@ -65,11 +65,11 @@ class UpdateDotDee(PropertyManager):
             force = self.force
         if not self.context.is_directory(self.directory):
             # Create the .d directory.
-            logger.info("Creating directory %s", format_path(self.directory))
+            logger.info("Creating directory %s ..", format_path(self.directory))
             self.context.execute('mkdir', '-p', self.directory, tty=False)
             # Move the original file into the .d directory.
             local_file = os.path.join(self.directory, 'local')
-            logger.info("Moving %s to %s", format_path(self.filename), format_path(local_file))
+            logger.info("Moving %s to %s ..", format_path(self.filename), format_path(local_file))
             self.context.execute('mv', self.filename, local_file, tty=False)
         # Read the modularized configuration file(s).
         blocks = []
