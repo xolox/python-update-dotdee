@@ -69,7 +69,7 @@ class UpdateDotDee(PropertyManager):
         """Get the checksum stored in :attr:`checksum_file` (a string or :data:`None`)."""
         if self.context.is_file(self.checksum_file):
             logger.debug("Reading saved checksum from %s ..", format_path(self.checksum_file))
-            checksum = self.context.read_file(self.checksum_file)
+            checksum = self.context.read_file(self.checksum_file).decode('ascii')
             logger.debug("Saved checksum is %s.", checksum)
             return checksum
 
