@@ -126,8 +126,8 @@ class UpdateDotDee(PropertyManager):
         logger.info("Reading file: %s", format_path(filename))
         contents = self.context.read_file(filename)
         num_lines = len(contents.splitlines())
-        logger.debug("Read %i line%s from %s",
-                     num_lines, '' if num_lines == 1 else 's',
+        logger.debug("Read %s from %s.",
+                     pluralize(num_lines, 'line'),
                      format_path(filename))
         return contents.rstrip()
 
@@ -141,9 +141,9 @@ class UpdateDotDee(PropertyManager):
         logger.info("Executing file: %s", format_path(filename))
         contents = self.context.execute(filename, capture=True).stdout
         num_lines = len(contents.splitlines())
-        logger.debug("Execution of %s yielded %i line%s of output",
-                     format_path(filename), num_lines,
-                     '' if num_lines == 1 else 's')
+        logger.debug("Execution of %s yielded % of output.",
+                     format_path(filename),
+                     pluralize(num_lines, 'line'))
         return contents.rstrip()
 
     def write_file(self, filename, contents):
