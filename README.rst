@@ -135,6 +135,15 @@ Here are some example use cases for update-dotdee:
  packages and manual configuration) to agree on the use of update-dotdee then
  you have an elegant, robust and predictable alternative.
 
+Read only alternative
+---------------------
+
+Sometimes the use of update-dotdee or a similar mechanism is the only way to
+get multiple configuration sources to cooperate, but it is a bit of a
+heavyweight solution. For the Python packages that I've published I wanted a
+more lightweight alternative that simply searches for and loads ``*.ini``
+configuration files. This is why ConfigLoader_ was added in release 5.0.
+
 Contact
 -------
 
@@ -154,6 +163,7 @@ This software is licensed under the `MIT license`_.
 .. _/etc/fstab: https://manpages.debian.org/fstab
 .. _/etc/hosts: https://manpages.debian.org/hosts
 .. _awk: https://manpages.debian.org/awk
+.. _ConfigLoader: http://update-dotdee.readthedocs.io/en/latest/#update_dotdee.ConfigLoader
 .. _Debian: http://www.debian.org/
 .. _dotdee: http://blog.dustinkirkland.com/2011/04/dotdee-modern-proposal-for-improving.html
 .. _GitHub: https://github.com/xolox/python-update-dotdee

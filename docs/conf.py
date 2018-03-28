@@ -1,7 +1,7 @@
 # Sphinx documentation configuration for the `update-dotdee' package.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: March 25, 2018
+# Last Change: March 28, 2018
 # URL: https://github.com/xolox/python-update-dotdee
 
 """Sphinx documentation configuration for the `update-dotdee` package."""
@@ -68,9 +68,11 @@ pygments_style = 'sphinx'
 # Refer to the Python standard library.
 # From: http://twistedmatrix.com/trac/ticket/4582.
 intersphinx_mapping = dict(
+    executor=('https://executor.readthedocs.io/en/latest', None),
     humanfriendly=('https://humanfriendly.readthedocs.io/en/latest', None),
     propertymanager=('https://property-manager.readthedocs.io/en/latest', None),
-    python=('https://docs.python.org/2', None),
+    python2=('https://docs.python.org/2', None),
+    python3=('https://docs.python.org/3', None),
 )
 
 # -- Options for HTML output ---------------------------------------------------

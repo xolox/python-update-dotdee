@@ -1,7 +1,7 @@
 # Generic modular configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: March 25, 2018
+# Last Change: March 29, 2018
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """Test suite for `update-dotdee`."""
@@ -10,10 +10,11 @@
 import os
 
 # External dependencies.
-from humanfriendly.testing import TemporaryDirectory, TestCase, run_cli
+from humanfriendly import dedent
+from humanfriendly.testing import MockedHomeDirectory, TemporaryDirectory, TestCase, run_cli
 
 # Modules included in our package.
-from update_dotdee import UpdateDotDee
+from update_dotdee import ConfigLoader, UpdateDotDee
 from update_dotdee.cli import main
 
 
@@ -163,6 +164,60 @@ class UpdateDotDeeTestCase(TestCase):
             program.update_file(force=False)
             # Sanity check that the persisted checksum matches a checksum computed at runtime.
             assert program.old_checksum == program.new_checksum
+
+    def test_config_loader(self):
+        """Tests for the :class:`ConfigLoader` class."""
+        # Test support for custom filename extensions.
+        loader = ConfigLoader(program_name='update-dotdee', filename_extension='conf')
+        assert '/etc/update-dotdee.conf' in loader.filename_patterns
+        # Test loading of multiple configuration files.
+        with MockedHomeDirectory() as directory:
+            # Create the main user configuration file at ~/.update-dotdee.ini.
+            main_file = os.path.join(directory, '.update-dotdee.ini')
+            write_file(main_file, dedent('''
+                [main-section]
+                main-option = value
+            '''))
+            # Create some modular ~/.config/update-dotdee.d/*.ini configuration files.
+            config_directory = os.path.join(directory, '.config', 'update-dotdee.d')
+            os.makedirs(config_directory)
+            modular_file_1 = os.path.join(config_directory, '1.ini')
+            modular_file_2 = os.path.join(config_directory, '2.ini')
+            modular_file_11 = os.path.join(config_directory, '11.ini')
+            write_file(modular_file_1, dedent('''
+                [modular-section-1]
+                my-option-name = value
+            '''))
+            write_file(modular_file_2, dedent('''
+                [modular-section-2]
+                my-option-name = value
+
+                [main-section]
+                modular-option = value
+            '''))
+            write_file(modular_file_11, dedent('''
+                [modular-section-11]
+                my-option-name = value
+            '''))
+            # Use ConfigLoader to load the configuration files.
+            loader = ConfigLoader(program_name='update-dotdee')
+            # Make sure all configuration files were found.
+            assert len(loader.available_files) == 4
+            assert loader.available_files[0] == main_file
+            assert loader.available_files[1] == modular_file_1
+            assert loader.available_files[2] == modular_file_2
+            assert loader.available_files[3] == modular_file_11
+            # Make sure all configuration file sections are loaded.
+            assert set(loader.section_names) == set([
+                'main-section',
+                'modular-section-1',
+                'modular-section-2',
+                'modular-section-11',
+            ])
+            assert loader.get_options('main-section') == {
+                'main-option': 'value',
+                'modular-option': 'value',
+            }
 
 
 def write_file(filename, contents=''):
