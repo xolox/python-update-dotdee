@@ -41,7 +41,7 @@ from property_manager import (
 from six.moves import configparser
 
 # Semi-standard module versioning.
-__version__ = '4.0'
+__version__ = '5.0'
 
 DOCUMENTATION_TEMPLATE = """
 Configuration files are text files in the subset of `ini syntax`_ supported by
