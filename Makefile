@@ -42,7 +42,8 @@ reset:
 	$(MAKE) install
 
 check: install
-	@scripts/check-code-style.sh
+	@pip install --upgrade --quiet --requirement=requirements-checks.txt
+	@flake8
 
 test: install
 	@pip-accel install --quiet --requirement=requirements-tests.txt
