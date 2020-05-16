@@ -1,7 +1,7 @@
 # Sphinx documentation configuration for the `update-dotdee' package.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: March 28, 2018
+# Last Change: May 17, 2020
 # URL: https://github.com/xolox/python-update-dotdee
 
 """Sphinx documentation configuration for the `update-dotdee` package."""
@@ -36,7 +36,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'update-dotdee'
-copyright = '2018, Peter Odding'
+copyright = '2020, Peter Odding'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
