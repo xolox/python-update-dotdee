@@ -1,7 +1,7 @@
 # Generic modular configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: July 13, 2017
+# Last Change: May 17, 2020
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -106,6 +106,6 @@ def main():
         program_opts['context'] = create_context(**context_opts)
         # Initialize the program and update the file.
         UpdateDotDee(**program_opts).update_file()
-    except Exception as e:
+    except Exception:
         logger.exception("Encountered unexpected exception, aborting!")
         sys.exit(1)
