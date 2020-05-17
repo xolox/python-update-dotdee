@@ -1,22 +1,33 @@
-.. include:: ../README.rst
+update-dotdee: Generic modular configuration file manager
+=========================================================
 
-API documentation
-=================
-
-The following documentation is based on the source code of version |release| of
-the `update-dotdee` package.
+Welcome to the documentation of `update-dotdee` version |release|!
+The following sections are available:
 
 .. contents::
    :local:
 
-:mod:`update_dotdee`
---------------------
+User documentation
+------------------
 
-.. automodule:: update_dotdee
-   :members:
+The readme is the best place to start reading, it's targeted at all users and
+documents the command line interface:
 
-:mod:`update_dotdee.cli`
-------------------------
+.. toctree::
+   readme.rst
 
-.. automodule:: update_dotdee.cli
-   :members:
+API documentation
+-----------------
+
+The following API documentation is automatically generated from the source code:
+
+.. toctree::
+   api.rst
+
+Change log
+----------
+
+The change log lists notable changes to the project:
+
+.. toctree::
+   changelog.rst

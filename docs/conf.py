@@ -68,6 +68,7 @@ pygments_style = 'sphinx'
 # Refer to the Python standard library.
 # From: http://twistedmatrix.com/trac/ticket/4582.
 intersphinx_mapping = dict(
+    coloredlogs=('https://coloredlogs.readthedocs.io/en/latest', None),
     executor=('https://executor.readthedocs.io/en/latest', None),
     humanfriendly=('https://humanfriendly.readthedocs.io/en/latest', None),
     propertymanager=('https://property-manager.readthedocs.io/en/latest', None),

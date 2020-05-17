@@ -11,7 +11,7 @@ The update-dotdee program makes it easy to manage configuration files with
 modular contents in the style of Debian_ and dotdee_. The program takes the
 pathname of a configuration file and updates that file based on the contents of
 the files in the directory with the same name as the file but ending in ``.d``.
-It's currently tested on cPython 2.6, 2.7, 3.4, 3.5, 3.6 and PyPy (2.7).
+It's currently tested on cPython 2.7, 3.5+ and PyPy (2.7).
 
 .. contents::
    :local:
@@ -147,7 +147,8 @@ configuration files. This is why ConfigLoader_ was added in release 5.0.
 Contact
 -------
 
-The latest version of update-dotdee is available on PyPI_ and GitHub_. For bug
+The latest version of update-dotdee is available on PyPI_ and GitHub_. The
+documentation is hosted on `Read the Docs`_ and includes a changelog_. For bug
 reports please create an issue on GitHub_. If you have questions, suggestions,
 etc. feel free to send me an e-mail at `peter@peterodding.com`_.
 
@@ -163,6 +164,7 @@ This software is licensed under the `MIT license`_.
 .. _/etc/fstab: https://manpages.debian.org/fstab
 .. _/etc/hosts: https://manpages.debian.org/hosts
 .. _awk: https://manpages.debian.org/awk
+.. _changelog: https://update-dotdee.readthedocs.io/en/latest/changelog.html
 .. _ConfigLoader: http://update-dotdee.readthedocs.io/en/latest/#update_dotdee.ConfigLoader
 .. _Debian: http://www.debian.org/
 .. _dotdee: http://blog.dustinkirkland.com/2011/04/dotdee-modern-proposal-for-improving.html
