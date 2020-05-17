@@ -1,7 +1,7 @@
 # Generic modular configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: March 29, 2018
+# Last Change: May 17, 2020
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """Test suite for `update-dotdee`."""
@@ -10,8 +10,8 @@
 import os
 
 # External dependencies.
-from humanfriendly import dedent
 from humanfriendly.testing import MockedHomeDirectory, TemporaryDirectory, TestCase, run_cli
+from humanfriendly.text import dedent
 
 # Modules included in our package.
 from update_dotdee import ConfigLoader, UpdateDotDee

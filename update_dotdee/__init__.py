@@ -1,7 +1,7 @@
 # Generic modular configuration file manager.
 #
 # Author: Peter Odding <peter@peterodding.com>
-# Last Change: March 29, 2018
+# Last Change: May 17, 2020
 # URL: https://pypi.python.org/pypi/update-dotdee
 
 """
@@ -30,7 +30,8 @@ import os
 
 # External dependencies.
 from executor.contexts import LocalContext
-from humanfriendly import compact, format, format_path, parse_path, pluralize
+from humanfriendly import format_path, parse_path
+from humanfriendly.text import compact, format, pluralize
 from natsort import natsort
 from property_manager import (
     PropertyManager,
