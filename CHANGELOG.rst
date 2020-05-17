@@ -14,7 +14,8 @@ to `semantic versioning`_.
 `Release 5.0`_ (2018-03-29)
 ---------------------------
 
-Add support for ``*.ini`` configuration file loading.
+Add support for ``*.ini`` configuration file loading, for details refer to the
+new :class:`.ConfigLoader` class.
 
 .. _Release 5.0: https://github.com/xolox/python-update-dotdee/compare/4.0...5.0
 
