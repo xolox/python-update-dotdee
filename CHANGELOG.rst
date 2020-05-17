@@ -11,6 +11,24 @@ to `semantic versioning`_.
 .. _Keep a Changelog: http://keepachangelog.com/
 .. _semantic versioning: http://semver.org/
 
+`Release 6.0`_ (2020-05-17)
+---------------------------
+
+This is a "maintenance release" that updates Python compatibility:
+
+- Python 3.7 and 3.8 are now officially supported.
+- Python 2.6 and 3.4 are no longer supported.
+
+Lots of miscellaneous changes sneaked in, no real code changes though:
+
+- Changed the readme to use console highlighting.
+- Documentation improvements, added this changelog.
+- Fixed :pypi:`humanfriendly` 8 deprecation warnings.
+- Changed makefile to use Python 3 for local development.
+- Added ``license=MIT`` and ``python_requires`` to setup script.
+
+.. _Release 6.0: https://github.com/xolox/python-update-dotdee/compare/5.0...6.0
+
 `Release 5.0`_ (2018-03-29)
 ---------------------------
 
